@@ -1,0 +1,9 @@
+{
+	"folder_id": "b1goa6g1naasdasd",
+	"service_account_key_file": "./key.json",
+	"source_image_family": "ubuntu-1804-lts",
+    "ssh_username": "ubuntu",
+    "platform_id": "standard-v1",
+    "image_description": "image docker",
+    "image_family": "docker-app"
+}
