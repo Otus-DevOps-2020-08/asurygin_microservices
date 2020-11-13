@@ -1,0 +1,2 @@
+image_to_run: asurygin/otus-reddit:1.0
+container_name: reddit
