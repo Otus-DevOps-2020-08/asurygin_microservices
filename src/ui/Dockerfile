@@ -3,7 +3,7 @@ FROM ruby:2.2-alpine
 WORKDIR /app
 COPY . /app
 
-RUN apk --no-cache --update add build-base bash && \
+RUN apk --no-cache --update add build-base bash curl && \
         bundle check || bundle install && \
         apk del build-base && \
         rm -rf /var/cache/apk/* /tmp/* /var/tmp/*

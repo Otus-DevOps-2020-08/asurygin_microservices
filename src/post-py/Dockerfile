@@ -2,7 +2,7 @@ FROM python:3.6.0-alpine
 WORKDIR /app
 COPY . /app
 
-RUN apk --no-cache --update add build-base && \
+RUN apk --no-cache --update add build-base curl && \
     pip install -r /app/requirements.txt && \
     apk del build-base && \
     rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
