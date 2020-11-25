@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+    ui:
+      command: --debug -w 2
+      volumes:
+        - ui_src:/app
+
+    comment:
+      command: --debug -w 2
+      volumes:
+        - comment_src:/app
+
+volumes:
+    ui_src:
+    comment_src:
