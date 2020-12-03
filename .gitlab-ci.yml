@@ -1,12 +1,24 @@
+image: ruby:2.4.2
+
 stages:
   - build
   - test
   - deploy
 
+variables:
+  DATABASE_URL: 'mongo:27017'
+
 build_job:
   stage: build
+  image: docker:19.03.6
+  services:
+    - name: docker:19.03.6-dind
+    - alias: docker
+  before_script:
+    - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
   script:
-    - echo 'Building'
+    - cd reddit
+    - bundle install
 
 test_unit_job:
   stage: test
@@ -15,8 +27,10 @@ test_unit_job:
 
 test_integration_job:
   stage: test
+  services:
+    - mongo:latest
   script:
-    - echo 'Testing 2'
+    - ruby simpletest.rb
 
 deploy_job:
   stage: deploy
