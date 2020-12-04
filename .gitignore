@@ -15,3 +15,7 @@ vault.key
 .molecule
 .cache
 .pytest_cache
+.env
+docker-monolith
+gitlab-ci
+src
