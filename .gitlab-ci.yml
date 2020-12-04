@@ -10,15 +10,11 @@ variables:
 
 build_job:
   stage: build
-  image: docker:19.03.6
-  services:
-    - name: docker:19.03.6-dind
-    - alias: docker
   before_script:
-    - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
-  script:
     - cd reddit
     - bundle install
+  script:
+    - echo 'Building'
 
 test_unit_job:
   stage: test
