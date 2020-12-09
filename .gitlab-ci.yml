@@ -8,18 +8,20 @@ stages:
 variables:
   DATABASE_URL: 'mongo:27017'
 
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+
+before_script:
+  - cd reddit
+  - bundle install
+
 build_job:
   stage: build
-  before_script:
-    - cd reddit
-    - bundle install
   script:
     - echo 'Building'
 
 test_unit_job:
   stage: test
-  before_script:
-    - cd reddit
   services:
     - mongo:latest
   script:
