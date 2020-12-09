@@ -8,12 +8,6 @@ stages:
 variables:
   DATABASE_URL: 'mongo:27017'
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - vendor/ruby
-
-
 before_script:
   - cd reddit
   - bundle install -j $(nproc) --path vendor/ruby
