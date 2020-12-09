@@ -10,10 +10,13 @@ variables:
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - vendor/ruby
+
 
 before_script:
   - cd reddit
-  - bundle install
+  - bundle install -j $(nproc) --path vendor/ruby
 
 build_job:
   stage: build
