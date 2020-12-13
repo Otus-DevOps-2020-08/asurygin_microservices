@@ -1,0 +1,27 @@
+concurrent = 1
+check_interval = 0
+
+[session_server]
+  session_timeout = 1800
+
+
+[[runners]]
+  name = "DockerRunner"
+  url = "http://84.201.136.155/"
+  token = "YBetdsWeMxuRsU3nemtV"
+  executor = "docker"
+  [runners.custom_build_dir]
+  [runners.cache]
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+  [runners.docker]
+    tls_verify = false
+    image = "alpine:latest"
+    privileged = true
+    disable_entrypoint_overwrite = false
+    oom_kill_disable = false
+    disable_cache = false
+    cache_dir = ""
+    volumes = ["/cache", "/var/cache/"]
+    shm_size = 0
