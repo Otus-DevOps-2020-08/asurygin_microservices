@@ -10,7 +10,7 @@ services:
   ui:
     build: ./ui
     restart: always
-    image: ${USERNAME}/ui:${UI_VERSION}
+    image: ${USER_NAME}/ui:${UI_VERSION}
     ports:
       - ${PORT_APP}:9292/tcp
     networks:
@@ -18,14 +18,14 @@ services:
   post:
     build: ./post-py
     restart: always
-    image: ${USERNAME}/post:${POST_VERSION}
+    image: ${USER_NAME}/post:${POST_VERSION}
     networks:
       - back_net
       - front_net
   comment:
     build: ./comment
     restart: always
-    image: ${USERNAME}/comment:${COMMENT_VERSION}
+    image: ${USER_NAME}/comment:${COMMENT_VERSION}
     networks:
       - front_net
       - back_net
