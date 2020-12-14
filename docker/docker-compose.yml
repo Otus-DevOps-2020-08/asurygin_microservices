@@ -57,7 +57,7 @@ services:
       - front_net
 
   mongodb-exporter:
-    image: asurygin/mongodb-exporter:latest
+    image: ${USER_NAME}/mongodb-exporter:${MONGO_EXP}
     ports:
       - 9216:9216
 
