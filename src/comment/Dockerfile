@@ -2,7 +2,7 @@ FROM ruby:2.2-alpine
 WORKDIR /app
 COPY Gemfile* /app/
 
-RUN apk --no-cache --update add build-base bash curl && \
+RUN apk --no-cache --update add build-base bash && \
         bundle check || bundle install && \
         apk del build-base
 

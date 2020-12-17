@@ -12,6 +12,11 @@ vault.key
 # Vagrant & molecule
 .vagrant/
 *.pyc
+.env
 .molecule
 .cache
 .pytest_cache
+.env
+docker-monolith
+gitlab-ci
+src
