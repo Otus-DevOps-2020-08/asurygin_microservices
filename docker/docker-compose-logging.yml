@@ -1,0 +1,109 @@
+version: '3.3'
+services:
+  zipkin:
+    image: openzipkin/zipkin:2.21.0
+    ports:
+        - "9411:9411"
+    networks:
+        - front_net
+        - back_net
+
+  post_db:
+    restart: always
+    image: mongo:3.2
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back_net
+
+  ui:
+    image: ${USER_NAME}/ui:${UI_VERSION}
+    restart: always
+    environment:
+        - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+    logging:
+        driver: "fluentd"
+        options:
+            fluentd-address: localhost:24224
+            tag: service.ui
+    ports:
+      - ${PORT_APP}:9292/tcp
+    networks:
+      - front_net
+      - back_net
+
+
+  post:
+    image: ${USER_NAME}/post:${POST_VERSION}
+    restart: always
+    environment:
+        - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+    environment:
+        - POST_DATABASE_HOST=post_db
+        - POST_DATABASE=posts
+    depends_on:
+        - "post_db"
+    ports:
+        - 5000:5000
+    logging:
+        driver: "fluentd"
+        options:
+            fluentd-address: localhost:24224
+            tag: service.post
+    networks:
+      - back_net
+      - front_net
+
+  comment:
+    image: ${USER_NAME}/comment:${COMMENT_VERSION}
+    restart: always
+    environment:
+        - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+        - COMMENT_DATABASE_HOST=post_db
+    depends_on:
+        - "post_db"
+    networks:
+      - front_net
+      - back_net
+
+  fluentd:
+    image: ${USER_NAME}/fluentd:${FLUENT_TAG}
+    restart: always
+    ports:
+       - 24224:24224
+       - 24224:24224/udp
+    networks:
+        - back_net
+        - front_net
+
+  elasticsearch:
+    image: elasticsearch:7.4.0
+    environment:
+      - ELASTIC_CLUSTER=false
+      - CLUSTER_NODE_MASTER=true
+      - CLUSTER_MASTER_NODE_NAME=es01
+      - discovery.type=single-node
+    ports:
+        - "9200:9200"
+    networks:
+        - back_net
+        - front_net
+
+  kibana:
+    image: kibana:7.4.0
+    ports:
+        - "5601:5601"
+    networks:
+        - back_net
+        - front_net
+
+
+
+
+volumes:
+  post_db:
+
+
+networks:
+  front_net:
+  back_net:

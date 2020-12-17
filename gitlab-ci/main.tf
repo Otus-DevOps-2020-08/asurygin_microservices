@@ -5,11 +5,11 @@ provider "yandex" {
   zone      = var.zone
 }
 
-resource "yandex_compute_instance" "app" {
+resource "yandex_compute_instance" "docker-host" {
   count = var.instance_count
-  name = "app-${count.index}"
+  name = "docker-host-${count.index}"
   labels = {
-    tags = "app"
+    tags = "docker-host"
   }
 
 
