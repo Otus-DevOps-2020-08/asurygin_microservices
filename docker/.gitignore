@@ -1,0 +1,21 @@
+variables.json
+packer-key.json
+terraform-key.json
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+.terraform
+*.retry
+jdauphant.nginx
+vault.key
+# Vagrant & molecule
+.vagrant/
+*.pyc
+.molecule
+.cache
+.pytest_cache
+.env
+docker-monolith
+gitlab-ci
+src
