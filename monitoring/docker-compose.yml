@@ -1,0 +1,78 @@
+version: '3.3'
+services:
+  post_db:
+    restart: always
+    image: mongo:3.2
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back_net
+  ui:
+    image: ${USER_NAME}/ui:${UI_VERSION}
+    restart: always
+    ports:
+      - ${PORT_APP}:9292/tcp
+    networks:
+      - front_net
+  post:
+    image: ${USER_NAME}/post:${POST_VERSION}
+    restart: always
+    networks:
+      - back_net
+      - front_net
+  comment:
+    image: ${USER_NAME}/comment:${COMMENT_VERSION}
+    restart: always
+    networks:
+      - front_net
+      - back_net
+  prometheus:
+    image: ${USER_NAME}/prometheus:${PROM_VERSION}
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d'
+    networks:
+      - front_net
+      - back_net
+  node-exporter:
+    image: prom/node-exporter:${NODE_EXP_VER}
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      - front_net
+
+  mongodb-exporter:
+    image: ${USER_NAME}/mongodb-exporter:${MONGO_EXP}
+    ports:
+      - 9216:9216
+
+    command:
+      - '--mongodb.uri=mongodb://post_db:27017'
+      - '--collect.database'
+      - '--collect.collection'
+      - '--collect.topmetrics'
+      - '--collect.indexusage'
+    networks:
+      - front_net
+      - back_net
+
+volumes:
+  post_db:
+  prometheus_data:
+
+
+networks:
+  front_net:
+  back_net:
