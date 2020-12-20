@@ -1,3 +1,14 @@
+# # Домашние задание № 22
+- Запущен и настроен docker-host в YC
+- Запущен контейнер с prometheus;
+- Создана конфигурация и докерфайл prometheus; Собран образ prometheus с необходимыми настройками;
+- Собраны образы reddit app;
+- В docker-compose.yml добавлен сервис prometheus;
+- Настроен мониторинг сервисов;
+- Добавлен node_exporter для сбора метрик с докер-хоста;
+- Добавлен percona/mongodb_exporter для сбора метрик с MongoDB; Dockerfile для сборки образа в monitoring/mongodb_exporter;
+
+
 # Домашние задание № 18
  - Собран проект через docker-compose
  - Фаил docker-compose параметризован с использованием .env

@@ -12,6 +12,7 @@ vault.key
 # Vagrant & molecule
 .vagrant/
 *.pyc
+.env
 .molecule
 .cache
 .pytest_cache
